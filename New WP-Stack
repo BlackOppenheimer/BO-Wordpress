@@ -1,0 +1,33 @@
+version: '2.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8001:80  # Change '8001' to the corresponding port number for each NFT
+    environment:
+      WORDPRESS_DB_HOST: db  # No need to change
+      WORDPRESS_DB_USER: exampleuser  # Change if you want different users per site
+      WORDPRESS_DB_PASSWORD: examplepass  # Change if you want different passwords per site
+      WORDPRESS_DB_NAME: db1  # Change 'db1' to the corresponding database name for each NFT
+    volumes:
+      - /srv/dev-disk-by-label-ssd/conf/Wordpress1:/var/www/html  # Change 'Wordpress1' to match the NFT number
+    links:
+      - db:db
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: db1  # Change 'db1' to the corresponding database name for each NFT
+      MYSQL_USER: exampleuser  # Change if you want different users per site
+      MYSQL_PASSWORD: examplepass  # Change if you want different passwords per site
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'  # No need to change
+    volumes:
+      - db1:/var/lib/mysql  # Change 'db1' to match the NFT number
+
+volumes:
+  wordpress1:  # Change 'wordpress1' to match the NFT number
+  db1:  # Change 'db1' to match the NFT number
